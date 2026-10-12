@@ -1,3 +1,7 @@
-from uwqsc.common import core
+"""
+Shared constants used by every brick.
+"""
 
-__all__ = ["core"]
+from uwqsc.common.config import INTERFACE_NOT_IMPLEMENTED_ERROR
+
+__all__ = ["INTERFACE_NOT_IMPLEMENTED_ERROR"]

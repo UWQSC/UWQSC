@@ -8,8 +8,8 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from uwqsc_algorithmic_trading.interfaces.algorithms.algorithm_interface import StockPosition
-from uwqsc_algorithmic_trading.src.algorithms.simple_moving_average_impl import (
+from uwqsc.algorithm_core.algorithm_interface import StockPosition
+from uwqsc.algorithms.sma.simple_moving_average_impl import (
     SimpleMovingAverageImpl
 )
 

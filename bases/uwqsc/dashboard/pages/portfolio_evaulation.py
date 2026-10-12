@@ -4,8 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from uwqsc_algorithmic_trading.src.algorithms.simple_moving_average_impl import SimpleMovingAverageImpl
-from uwqsc_algorithmic_trading.interfaces.algorithms.algorithm_interface import IAlgorithm
+from uwqsc.algorithms.sma.simple_moving_average_impl import SimpleMovingAverageImpl
+from uwqsc.algorithm_core.algorithm_interface import IAlgorithm
+from uwqsc.backtesting import Portfolio
 
 
 #Loading parquet data file (converted from CSV)
@@ -96,24 +97,22 @@ else:
                 parameters={"position_size": 0.1, "short_window": short_window, "long_window": long_window}
             )
 
-            capital = initial_capital
-            portfolio = []
+            portfolio = Portfolio(initial_capital)
 
             for date, row in df_pivot.iterrows():
                 current_data = pd.DataFrame([row])
-                trades = strategy.execute_trade(capital, current_data)
-                for ticker, change in trades.items():
-                    capital += change
-                portfolio.append((date, capital))
+                prices = {t: float(row[f"{t}_price"]) for t in selected_tickers}
+                trades = strategy.execute_trade(portfolio.equity(prices), current_data)
+                portfolio.apply(trades, prices)
+                portfolio.mark(date, prices)
 
             # Display results
-            portfolio_df = pd.DataFrame(portfolio, columns=["Date", "Capital"])
-            portfolio_df.set_index("Date", inplace=True)
+            metrics = portfolio.metrics()
 
             st.subheader("Portfolio Value Over Time")
-            st.line_chart(portfolio_df["Capital"])
-            st.subheader("Final Capital")
-            st.write(f"${capital:,.2f}")
+            st.line_chart(portfolio.equity_series())
+            st.subheader("Final Equity")
+            st.write(f"${metrics['final_equity']:,.2f}")
 
     else:
         st.write("Your current company selection is ", company_name)

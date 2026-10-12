@@ -8,7 +8,7 @@ import datetime as dt
 import numpy as np
 import pandas as pd
 
-from uwqsc_algorithmic_trading.src.preprocessing.sma_preprocessor_impl import SMAPreProcessorImpl
+from uwqsc.algorithms.sma.sma_preprocessor_impl import SMAPreProcessorImpl
 
 
 class SMAPreprocessorImplTest(unittest.TestCase):

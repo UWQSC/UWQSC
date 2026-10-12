@@ -1,3 +1,7 @@
-from uwqsc.cli import core
+"""
+Command line interface for syncing data and running backtests.
+"""
 
-__all__ = ["core"]
+from uwqsc.cli.core import build_parser, main
+
+__all__ = ["build_parser", "main"]

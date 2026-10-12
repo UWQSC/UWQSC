@@ -7,7 +7,7 @@ from typing import List
 
 import pandas as pd
 
-from uwqsc_algorithmic_trading.interfaces.preprocessing.preprocessor_interface \
+from uwqsc.algorithm_core.preprocessor_interface \
     import IPreProcessData
 
 

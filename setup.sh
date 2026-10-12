@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# Python setup
-python3.9 -m venv venv 
-source venv/bin/activate 
-pip install --upgrade pip
-pip install -r requirements.txt
+# Python setup (installs Python 3.12 if needed and creates .venv)
+uv sync
 
-# Git hooks setup 
-scp bin/commit-msg.sh .git/hooks/commit-msg
+# Git hooks setup
+cp bin/commit-msg.sh .git/hooks/commit-msg
 chmod +x .git/hooks/commit-msg

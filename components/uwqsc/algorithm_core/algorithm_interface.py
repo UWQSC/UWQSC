@@ -4,13 +4,13 @@ This file stores bare-bones information required for any Stock Prediction Algori
 
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, FrozenSet, List, Optional
 
 from pandas import DataFrame
 
-from uwqsc_algorithmic_trading.interfaces.preprocessing.preprocessor_interface \
+from uwqsc.algorithm_core.preprocessor_interface \
     import IPreProcessData
-from uwqsc_algorithmic_trading.src.common.config import INTERFACE_NOT_IMPLEMENTED_ERROR
+from uwqsc.common.config import INTERFACE_NOT_IMPLEMENTED_ERROR
 
 
 class StockPosition(Enum):
@@ -28,7 +28,27 @@ class StockPosition(Enum):
 class IAlgorithm(ABC):
     """
     Essential functions shared by all algorithmic trading algorithms.
+
+    Subclasses may override:
+    - DEFAULT_PARAMETERS: defaults merged under the caller's parameters.
+    - REQUIRED_FEATURES: snapshot features the algorithm reads. "price" gives
+      {ticker}_price and {ticker}_volume; "sentiment" adds {ticker}_sent_emotional,
+      {ticker}_sent_logical and {ticker}_sent_volume.
     """
+
+    DEFAULT_PARAMETERS: Dict[str, Any] = {}
+    REQUIRED_FEATURES: FrozenSet[str] = frozenset({"price"})
+
+    @classmethod
+    def merge_parameters(cls, parameters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Merge caller-supplied parameters over the class defaults.
+
+        :param parameters: Dictionary. Overrides for DEFAULT_PARAMETERS
+        :returns: New dictionary with defaults applied
+        """
+
+        return {**cls.DEFAULT_PARAMETERS, **(parameters or {})}
 
     def __init__(self,
                  name: str,
@@ -47,7 +67,7 @@ class IAlgorithm(ABC):
         self.name = name
         self.tickers = tickers
         self.__data_processor__ = data_processor
-        self.parameters = parameters or {}
+        self.parameters = self.merge_parameters(parameters)
         self.__positions__ = {ticker: StockPosition.HOLD for ticker in tickers}
         self.metrics = {}
         self.__data__: Optional[DataFrame] = None

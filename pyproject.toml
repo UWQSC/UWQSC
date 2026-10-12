@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"
+
+[project]
+name = "uwqsc"
+version = "0.1.0"
+description = "UWQSC monorepo: algorithmic trading, backtesting, market data and sentiment."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas~=2.2",
+    "numpy~=1.26",
+    "yfinance>=0.2.54,<0.3",
+    "streamlit>=1.43",
+    "matplotlib>=3.8",
+    "seaborn>=0.13.2",
+    "pyarrow>=15",
+]
+
+[project.scripts]
+uwqsc = "uwqsc.cli.core:main"
+
+[dependency-groups]
+dev = [
+    "polylith-cli",
+    "pytest",
+    "pytest-cov",
+    "pylint",
+]
+
+[tool.hatch.build]
+dev-mode-dirs = ["components", "bases", "development", "."]
+
+[tool.polylith.bricks]
+"bases/uwqsc/cli" = "uwqsc/cli"
+"bases/uwqsc/dashboard" = "uwqsc/dashboard"
+"components/uwqsc/common" = "uwqsc/common"
+"components/uwqsc/storage" = "uwqsc/storage"
+"components/uwqsc/algorithm_core" = "uwqsc/algorithm_core"
+"components/uwqsc/algorithms" = "uwqsc/algorithms"
+"components/uwqsc/market_data" = "uwqsc/market_data"
+"components/uwqsc/sentiment" = "uwqsc/sentiment"
+"components/uwqsc/backtesting" = "uwqsc/backtesting"
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["*_test.py", "test_*.py"]
+addopts = "--import-mode=importlib"
+pythonpath = ["test/support"]

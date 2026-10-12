@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sma_algorithm import SimpleMovingAverageImpl
 
 
 #Loading parquet data file (converted from CSV)

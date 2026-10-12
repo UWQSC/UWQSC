@@ -5,9 +5,9 @@ Testing the Hidden Markov Model Algorithm
 import unittest
 from unittest.mock import MagicMock
 
-from uwqsc_algorithmic_trading.interfaces.algorithms.algorithm_interface import StockPosition
-from uwqsc_algorithmic_trading.src.algorithms.hidden_markov_model_impl import HiddenMarkovModelImpl
-from uwqsc_algorithmic_trading.src.preprocessing.hmm_preprocessor_impl import HMMPreProcessorImpl
+from uwqsc.algorithm_core.algorithm_interface import StockPosition
+from uwqsc.algorithms.hmm.hidden_markov_model_impl import HiddenMarkovModelImpl
+from uwqsc.algorithms.hmm.hmm_preprocessor_impl import HMMPreProcessorImpl
 
 
 class HiddenMarkovModelImplTest(unittest.TestCase):

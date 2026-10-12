@@ -3,7 +3,7 @@ Before running the Hidden Markov Model Algorithm, we must prepare the data for i
 This file contains the logic behind preprocessing data specifically for Hidden Markov Model.
 """
 
-from uwqsc_algorithmic_trading.interfaces.preprocessing.preprocessor_interface \
+from uwqsc.algorithm_core.preprocessor_interface \
     import IPreProcessData
 
 

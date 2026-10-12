@@ -6,10 +6,12 @@ from typing import Dict, List, Any
 
 from pandas import DataFrame
 
-from uwqsc_algorithmic_trading.interfaces.algorithms.algorithm_interface import IAlgorithm
-from uwqsc_algorithmic_trading.src.preprocessing.hmm_preprocessor_impl import HMMPreProcessorImpl
+from uwqsc.algorithm_core.algorithm_interface import IAlgorithm
+from uwqsc.algorithm_core.registry import register_algorithm
+from uwqsc.algorithms.hmm.hmm_preprocessor_impl import HMMPreProcessorImpl
 
 
+@register_algorithm("hmm")
 class HiddenMarkovModelImpl(IAlgorithm):
     """
    Working logic for Hidden Markov Model (HMM) algorithm.

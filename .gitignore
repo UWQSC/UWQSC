@@ -1,0 +1,18 @@
+.venv
+venv
+__pycache__
+dist
+*.egg-info
+.coverage
+.pytest_cache
+
+# Local databases and large datasets
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+data/*.csv
+data/*.parquet
+
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf

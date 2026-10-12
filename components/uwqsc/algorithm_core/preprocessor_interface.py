@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 
 from pandas import DataFrame, concat
 
-from uwqsc_algorithmic_trading.src.common.config import INTERFACE_NOT_IMPLEMENTED_ERROR
+from uwqsc.common.config import INTERFACE_NOT_IMPLEMENTED_ERROR
 
 
 class IPreProcessData(ABC):

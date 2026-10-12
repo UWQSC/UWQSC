@@ -5,7 +5,7 @@ Testing the Hidden Markov Model Preprocessor
 import unittest
 import pandas as pd
 
-from uwqsc_algorithmic_trading.src.preprocessing.hmm_preprocessor_impl import HMMPreProcessorImpl
+from uwqsc.algorithms.hmm.hmm_preprocessor_impl import HMMPreProcessorImpl
 
 
 class HMMPreprocessorImplTest(unittest.TestCase):

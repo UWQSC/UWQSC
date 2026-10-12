@@ -7,21 +7,30 @@ from typing import Dict, List, Any
 
 import pandas as pd
 
-from uwqsc_algorithmic_trading.interfaces.algorithms.algorithm_interface \
+from uwqsc.algorithm_core.algorithm_interface \
     import IAlgorithm, StockPosition
-from uwqsc_algorithmic_trading.src.preprocessing.sma_preprocessor_impl import SMAPreProcessorImpl
+from uwqsc.algorithm_core.registry import register_algorithm
+from uwqsc.algorithms.sma.sma_preprocessor_impl import SMAPreProcessorImpl
 
 
+@register_algorithm("sma")
 class SimpleMovingAverageImpl(IAlgorithm):
     """
     Working logic for Simple Moving Average (SMA) algorithm.
     """
 
+    DEFAULT_PARAMETERS = {"position_size": 0.1, "short_window": 50, "long_window": 200}
+
     def __init__(self,
                  tickers: List[str],
                  parameters: Dict[str, Any] = None):
         name = "Simple Moving Average"
-        data_processor = SMAPreProcessorImpl(tickers)
+        parameters = self.merge_parameters(parameters)
+        data_processor = SMAPreProcessorImpl(
+            tickers,
+            parameters["short_window"],
+            parameters["long_window"]
+        )
 
         self.__current_short__: Dict[str, int] = {}
         self.__current_long__: Dict[str, int] = {}
