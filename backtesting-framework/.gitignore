@@ -1,0 +1,5 @@
+venv
+__pycache__
+
+data/hackathon_sample_v2.csv
+data/*.parquet
