@@ -1,0 +1,22 @@
+# Notifies team that a PR is ready for merge when the "Ready for Merge" label is added.
+name: Notify Algorithmic Trading team that PR is ready for merge
+
+on:
+  pull_request:
+    types: labeled
+
+jobs:
+  add-comment:
+    if: github.event.label.name == 'Ready for Merge'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add comment
+        run: gh pr comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          BODY: >
+            @UWQSC/algo-trading-codeowners The "Ready for Merge" label has been added. Please proceed with merge when possible. :tada:

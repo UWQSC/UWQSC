@@ -1,0 +1,22 @@
+# Notifies team that a PR is ready for review when the "Ready for Review" label is added.
+name: Notify Algorithmic Trading team that PR is ready for review
+
+on:
+  pull_request:
+    types: labeled
+
+jobs:
+  add-comment:
+    if: github.event.label.name == 'Ready for Review'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add comment
+        run: gh pr comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          BODY: >
+            @UWQSC/algo-trading-codeowners The "Ready for Review" label has been added. Please proceed with review when possible. :tada:

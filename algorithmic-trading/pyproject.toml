@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uwqsc-algorithmic-trading"
+version = "2025.3.23"
+dependencies = [
+    "matplotlib==3.7.0",
+    "numpy==1.26.4",
+    "pandas==2.0.3",
+    "tensorflow==2.18.0",
+    "keras==3.8.0",
+    "torch==2.5.1",
+    "scikit-learn==1.6.0rc1",
+    "seaborn==0.13.2",
+    "statsmodels==0.14.4",
+    "coverage==7.6.4",
+    "fastparquet==2024.11.0",
+    "yfinance==0.2.54",
+    "setuptools==70.0.0",
+    "build==1.2.2.post1",
+    "twine==6.1.0"
+]
+authors = [
+    { name="Sargun Singh Bhatti", email="sargunbhatti27@gmail.com" },
+    { name="Param Shah", email="paramshah07@gmail.com" },
+]
+description = "The University of Waterloo quantitative analytics stocks club algorithmic trading repository."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+
+[tool.setuptools.packages.find]
+include = ["uwqsc_algorithmic_trading*"]
+exclude = ["uwqsc_algorithmic_trading.tests*"] 
+
+[project.urls]
+Homepage = "https://github.com/UWQSC/algorithmic-trading"

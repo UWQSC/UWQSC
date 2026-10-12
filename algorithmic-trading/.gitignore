@@ -1,0 +1,10 @@
+venv
+__pycache__
+dist
+uwqsc_algorithmic_trading.egg-info
+
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf
+
+.coverage
