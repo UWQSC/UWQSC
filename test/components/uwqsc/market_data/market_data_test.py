@@ -147,6 +147,32 @@ class MarketDataServiceTest(unittest.TestCase):
         self.assertEqual(written, {"AAPL": 5})
         self.assertIsNone(self.store.get_ticker_info("AAPL"))
 
+    def test_weekend_only_window_is_skipped(self):
+        """
+        Testing that a re-sync whose only missing days are a weekend fetches nothing
+        """
+
+        self.service.sync(["AAPL"], date(2024, 1, 1), date(2024, 1, 5))
+        calls = len(self.source.bar_calls)
+
+        written = self.service.sync(["AAPL"], date(2024, 1, 1), date(2024, 1, 7),
+                                    refresh_info=False)
+
+        self.assertEqual(written, {"AAPL": 0})
+        self.assertEqual(len(self.source.bar_calls), calls)
+
+    def test_empty_download_is_logged(self):
+        """
+        Testing that a fetch returning no bars (e.g. a failed download) logs a warning
+        """
+
+        with self.assertLogs("uwqsc.market_data.service", level="WARNING") as logs:
+            written = self.service.sync(["NOPE"], date(2024, 1, 1), date(2024, 1, 5),
+                                        refresh_info=False)
+
+        self.assertEqual(written, {"NOPE": 0})
+        self.assertIn("returned no bars for NOPE", logs.output[0])
+
     def test_load_wide_columns(self):
         """
         Testing the {ticker}_price / {ticker}_volume layout algorithms expect

@@ -52,6 +52,11 @@ Key pieces:
   trading day by whose 16:00 New York close the items were published (`as_of_trading_date`). This
   prevents look-ahead, so `SnapshotBuilder` joins on date with no shift. Only `NullSentimentSource`
   exists today.
+- **dashboard**: `app.py` only sets up `st.navigation`; each page is a plain script in `app_pages/`
+  (no `pages/`, which Streamlit auto-discovers). Hackathon-parquet loading and the company/month
+  picker are shared via `uwqsc.dashboard.hackathon`. Prefer native charts (`st.line_chart`) over
+  matplotlib. Headless page tests: `streamlit.testing.v1.AppTest.from_file(".../app.py")` +
+  `switch_page("app_pages/<page>.py")`.
 - **backtesting**: `SnapshotBuilder` builds the per-date frame for exactly the features an algorithm
   requires. `IBacktestingFramework.run()` feeds one 1-row snapshot per step to `execute_trade` and
   books the returned `{ticker: cost}` in a `Portfolio` (cash -= cost, shares += cost/price, equity

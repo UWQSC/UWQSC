@@ -29,7 +29,8 @@ class MarketDataService:
     def plan_sync(self, tickers: List[str], start: date, end: date) -> Dict[date, List[str]]:
         """
         Work out what an incremental sync must fetch. Tickers already stored up to "end" are
-        skipped; the rest start the day after their latest stored bar (or at "start").
+        skipped, as are windows with no weekday in them (nothing can have traded); the rest start
+        the day after their latest stored bar (or at "start").
 
         :returns: fetch start date mapped to the tickers that share it
         """
@@ -38,7 +39,7 @@ class MarketDataService:
         for ticker in tickers:
             latest = self.store.latest_date(ticker)
             fetch_start = start if latest is None else max(start, latest + timedelta(days=1))
-            if fetch_start <= end:
+            if fetch_start <= end and len(pd.bdate_range(fetch_start, end)) > 0:
                 groups[fetch_start].append(ticker)
         return dict(groups)
 
@@ -64,6 +65,8 @@ class MarketDataService:
         for fetch_start, group in sorted(self.plan_sync(tickers, start, end).items()):
             bars = self.source.fetch_daily_bars(group, fetch_start, end)
             if bars.empty:
+                logger.warning("%s returned no bars for %s from %s; the download may have failed",
+                               source_name, ", ".join(group), fetch_start)
                 continue
             self.store.upsert_daily_bars(bars, source_name)
             for ticker, count in bars.groupby("ticker").size().items():

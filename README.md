@@ -26,7 +26,7 @@ Install [uv](https://docs.astral.sh/uv/), then:
 | `sentiment` | component | Emotional/logical crowd sentiment per ticker, aligned to market close |
 | `backtesting` | component | Snapshot assembly, `Portfolio` accounting, backtests and sweeps |
 | `cli` | base | `uwqsc` command line |
-| `dashboard` | base | Streamlit app |
+| `dashboard` | base | Streamlit app: `app.py` (navigation) + `app_pages/` |
 
 Code lives in `components/uwqsc/<brick>/` and `bases/uwqsc/<brick>/`, tests in `test/`, and the
 deployable package is `projects/backtester`. Everything imports as `uwqsc.<brick>`.
